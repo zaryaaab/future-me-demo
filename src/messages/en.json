@@ -1,0 +1,60 @@
+{
+  "app": {
+    "title": "Future Me"
+  },
+  "consent": {
+    "title": "Before we start",
+    "body": "We'll use your device's camera to take a selfie and generate an AI image of you in a future career. Your photo stays in this session only and is never saved or stored.",
+    "agree": "I Agree & Continue"
+  },
+  "name": {
+    "title": "What's your name?",
+    "subtitle": "Your name will appear with your photo",
+    "placeholder": "Enter your name",
+    "continue": "Continue"
+  },
+  "capture": {
+    "title": "Take a Selfie",
+    "subtitle": "Take a clear photo of your face, or choose one from your gallery",
+    "takePhoto": "Take Photo",
+    "upload": "Choose from Gallery",
+    "switchCamera": "Switch Camera",
+    "capture": "Capture",
+    "cancel": "Cancel",
+    "permissionError": "We couldn't access the camera. You can choose a photo from your gallery instead."
+  },
+  "preview": {
+    "title": "Looking Good",
+    "retake": "Retake",
+    "continue": "Continue"
+  },
+  "career": {
+    "title": "Pick Your Future Career",
+    "subtitle": "What will future you look like?"
+  },
+  "generating": {
+    "title": "Imagining your future...",
+    "messages": [
+      "Painting your future...",
+      "Adding a touch of magic...",
+      "Tailoring the perfect outfit...",
+      "Setting the perfect lighting...",
+      "Finishing the final touches..."
+    ]
+  },
+  "result": {
+    "title": "Your future is ready!",
+    "download": "Download Photo",
+    "share": "Share",
+    "tryAnother": "Try Another Career",
+    "newSelfie": "New Selfie"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "body": "We couldn't create the image this time. Please try again.",
+    "retry": "Retry"
+  },
+  "common": {
+    "back": "Back"
+  }
+}

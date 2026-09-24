@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-latin), sans-serif;
+  overscroll-behavior: none;
+}
+
+/* --font-arabic / --font-latin are declared on body by next/font's .variable
+   classes, so the conditional font-family must target body directly — a rule
+   scoped to html can't see custom properties declared on its descendant. */
+html[dir="rtl"] body {
+  font-family: var(--font-arabic), sans-serif;
+}
+
+/* Hide default number/search UI chrome, keep tap targets comfortable */
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+video,
+img {
+  -webkit-user-select: none;
+  user-select: none;
+}
