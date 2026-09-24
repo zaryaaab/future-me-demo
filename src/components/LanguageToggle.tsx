@@ -15,7 +15,7 @@ export default function LanguageToggle({
   onChange: (locale: Locale) => void;
 }) {
   return (
-    <div className="inline-flex items-center gap-0.5 rounded-full border border-black/10 bg-white/80 p-1 shadow-sm backdrop-blur">
+    <div className="inline-flex shrink-0 items-center gap-0.5 rounded-full border border-white/10 bg-white/5 p-1 backdrop-blur">
       {OPTIONS.map((option) => {
         const selected = option.value === locale;
         return (
@@ -24,10 +24,10 @@ export default function LanguageToggle({
             type="button"
             aria-pressed={selected}
             onClick={() => onChange(option.value)}
-            className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition active:scale-95 ${
+            className={`rounded-full px-3.5 py-1.5 font-display text-xs tracking-wide transition active:scale-95 ${
               selected
-                ? "bg-accent-600 text-white shadow-sm"
-                : "text-neutral-500 hover:text-neutral-700"
+                ? "bg-neon-gradient text-white shadow-neon-sm"
+                : "text-white/50 hover:text-white/80"
             }`}
           >
             {option.label}

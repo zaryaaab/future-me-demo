@@ -2,7 +2,7 @@
 
 import type { Step } from "@/lib/types";
 
-const FLOW_STEPS: Step[] = ["name", "capture", "preview", "career", "generating"];
+const FLOW_STEPS: Step[] = ["capture", "preview", "generating"];
 
 export default function StepProgress({ step }: { step: Step }) {
   const normalized = step === "result" ? "generating" : step;
@@ -20,8 +20,8 @@ export default function StepProgress({ step }: { step: Step }) {
       {FLOW_STEPS.map((s, i) => (
         <span
           key={s}
-          className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
-            i <= index ? "bg-accent-600" : "bg-neutral-200"
+          className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
+            i <= index ? "bg-neon-gradient shadow-neon-sm" : "bg-white/10"
           }`}
         />
       ))}

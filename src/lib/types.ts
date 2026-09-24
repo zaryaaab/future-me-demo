@@ -1,11 +1,3 @@
 export type Locale = "ar" | "en";
 
-export type Step =
-  | "consent"
-  | "name"
-  | "capture"
-  | "preview"
-  | "career"
-  | "generating"
-  | "result"
-  | "error";
+export type Step = "consent" | "capture" | "preview" | "generating" | "result" | "error";

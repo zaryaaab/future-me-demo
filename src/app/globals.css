@@ -9,14 +9,24 @@ body {
 
 body {
   font-family: var(--font-latin), sans-serif;
+  background-color: #0a0612;
   overscroll-behavior: none;
 }
 
-/* --font-arabic / --font-latin are declared on body by next/font's .variable
-   classes, so the conditional font-family must target body directly — a rule
-   scoped to html can't see custom properties declared on its descendant. */
+/* --font-arabic / --font-latin / --font-display-* are declared on body by
+   next/font's .variable classes, so the conditional font-family must target
+   body directly — a rule scoped to html can't see custom properties declared
+   on its descendant. */
 html[dir="rtl"] body {
   font-family: var(--font-arabic), sans-serif;
+}
+
+body {
+  --font-display: var(--font-display-latin);
+}
+
+html[dir="rtl"] body {
+  --font-display: var(--font-display-arabic);
 }
 
 /* Hide default number/search UI chrome, keep tap targets comfortable */

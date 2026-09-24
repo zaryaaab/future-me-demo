@@ -107,13 +107,13 @@ export default function CaptureScreen({
   return (
     <div className="flex flex-1 flex-col justify-center gap-6 py-8">
       <div className="text-center">
-        <h2 className="text-xl font-semibold text-neutral-800">{t("title")}</h2>
-        <p className="mt-2 text-sm text-neutral-500">{t("subtitle")}</p>
+        <h2 className="font-display text-xl tracking-wide text-white">{t("title")}</h2>
+        <p className="mt-2 text-sm text-white/50">{t("subtitle")}</p>
       </div>
 
       {mode === "camera" ? (
         <div className="mx-auto flex w-full max-w-sm flex-col gap-4">
-          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-3xl bg-neutral-900 shadow-lg">
+          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-3xl border border-white/10 bg-black shadow-neon">
             <video
               ref={videoRef}
               playsInline
@@ -123,7 +123,7 @@ export default function CaptureScreen({
             />
             {!stream && (
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="h-10 w-10 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                <span className="h-10 w-10 animate-spin rounded-full border-2 border-neon-pink/30 border-t-neon-pink" />
               </div>
             )}
           </div>
@@ -131,14 +131,14 @@ export default function CaptureScreen({
             <button
               type="button"
               onClick={handleCancelCamera}
-              className="rounded-full bg-neutral-100 px-5 py-3 text-sm font-medium text-neutral-700 active:scale-95"
+              className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-white/70 active:scale-95"
             >
               {t("cancel")}
             </button>
             <button
               type="button"
               onClick={handleCapture}
-              className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white bg-neutral-900 text-white shadow-lg active:scale-95"
+              className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white bg-neon-gradient text-white shadow-neon active:scale-95"
               aria-label={t("capture")}
             >
               <svg
@@ -158,7 +158,7 @@ export default function CaptureScreen({
             <button
               type="button"
               onClick={handleSwitchCamera}
-              className="rounded-full bg-neutral-100 px-5 py-3 text-sm font-medium text-neutral-700 active:scale-95"
+              className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-white/70 active:scale-95"
             >
               {t("switchCamera")}
             </button>
@@ -167,14 +167,14 @@ export default function CaptureScreen({
       ) : (
         <div className="mx-auto flex w-full max-w-sm flex-col gap-3">
           {error && (
-            <p className="rounded-2xl bg-red-50 px-4 py-3 text-center text-sm text-red-600">
+            <p className="rounded-2xl border border-neon-pink/30 bg-neon-pink/10 px-4 py-3 text-center text-sm text-neon-pink">
               {error}
             </p>
           )}
           <button
             type="button"
             onClick={handleTakePhoto}
-            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-accent-600 py-4 text-base font-semibold text-white shadow-lg transition active:scale-[0.98]"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-neon-gradient py-4 font-display text-base tracking-wide text-white shadow-neon transition active:scale-[0.98]"
           >
             <svg
               viewBox="0 0 24 24"
@@ -194,7 +194,7 @@ export default function CaptureScreen({
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="flex w-full items-center justify-center gap-2 rounded-2xl border border-neutral-200 bg-white py-4 text-base font-semibold text-neutral-800 shadow-sm transition active:scale-[0.98]"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/5 py-4 font-display text-base tracking-wide text-white/80 shadow-sm transition active:scale-[0.98]"
           >
             <svg
               viewBox="0 0 24 24"

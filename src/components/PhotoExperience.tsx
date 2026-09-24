@@ -1,17 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
 import type { Locale, Step } from "@/lib/types";
-import type { CareerId } from "@/config/careers";
+import { APP_TITLE } from "@/config/app";
 import { dataUrlToBlob } from "@/lib/image";
 import LanguageToggle from "@/components/LanguageToggle";
 import StepProgress from "@/components/StepProgress";
 import ConsentScreen from "@/components/ConsentScreen";
-import NameScreen from "@/components/NameScreen";
 import CaptureScreen from "@/components/CaptureScreen";
 import PreviewScreen from "@/components/PreviewScreen";
-import CareerScreen from "@/components/CareerScreen";
 import GeneratingScreen from "@/components/GeneratingScreen";
 import ResultScreen from "@/components/ResultScreen";
 import ErrorScreen from "@/components/ErrorScreen";
@@ -23,12 +20,10 @@ export default function PhotoExperience({
   locale: Locale;
   onLocaleChange: (locale: Locale) => void;
 }) {
-  const t = useTranslations();
   const [step, setStep] = useState<Step>("consent");
-  const [name, setName] = useState("");
   const [photoDataUrl, setPhotoDataUrl] = useState<string | null>(null);
-  const [careerId, setCareerId] = useState<CareerId | null>(null);
   const [resultImageUrl, setResultImageUrl] = useState<string | null>(null);
+  const [sceneId, setSceneId] = useState<string | null>(null);
 
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -36,7 +31,7 @@ export default function PhotoExperience({
   }, [locale]);
 
   useEffect(() => {
-    if (step !== "generating" || !photoDataUrl || !careerId) return;
+    if (step !== "generating" || !photoDataUrl) return;
 
     const controller = new AbortController();
 
@@ -44,7 +39,6 @@ export default function PhotoExperience({
       try {
         const formData = new FormData();
         formData.append("image", dataUrlToBlob(photoDataUrl), "photo.jpg");
-        formData.append("careerId", careerId);
 
         const res = await fetch("/api/generate", {
           method: "POST",
@@ -58,6 +52,7 @@ export default function PhotoExperience({
         }
 
         setResultImageUrl(data.imageUrl);
+        setSceneId(data.sceneId ?? null);
         setStep("result");
       } catch (err) {
         if ((err as Error).name === "AbortError") return;
@@ -66,25 +61,31 @@ export default function PhotoExperience({
     })();
 
     return () => controller.abort();
-  }, [step, photoDataUrl, careerId]);
+  }, [step, photoDataUrl]);
 
   return (
-    <main className="relative h-dvh w-full overflow-hidden bg-gradient-to-b from-accent-50 via-white to-white transition-colors duration-500 md:bg-neutral-100">
+    <main className="relative h-dvh w-full overflow-hidden bg-ink-950 transition-colors duration-500">
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-24 -top-24 hidden h-96 w-96 rounded-full bg-accent-200/40 blur-3xl md:block"
+        className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-neon-pink/25 blur-3xl"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-24 -right-24 hidden h-96 w-96 rounded-full bg-accent-100/50 blur-3xl md:block"
+        className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-neon-purple/25 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/3 h-72 w-72 -translate-x-1/2 rounded-full bg-neon-orange/10 blur-3xl"
       />
 
       <div className="relative mx-auto flex h-dvh w-full max-w-3xl items-center justify-center md:py-8">
-        <div className="flex h-dvh w-full min-h-0 flex-col bg-gradient-to-b from-accent-50 via-white to-white md:h-auto md:max-h-[92dvh] md:max-w-2xl md:rounded-[2.5rem] md:border md:border-black/5 md:bg-white/90 md:shadow-2xl md:shadow-black/10 md:backdrop-blur-xl">
+        <div className="flex h-dvh w-full min-h-0 flex-col bg-ink-950 md:h-auto md:max-h-[92dvh] md:max-w-2xl md:rounded-[2.5rem] md:border md:border-white/10 md:bg-ink-900/90 md:shadow-neon md:backdrop-blur-xl">
           <div className="flex min-h-0 flex-1 flex-col px-5 pb-6 pt-5 sm:px-8 md:px-12 md:py-8">
-            <header className="mb-3 flex shrink-0 items-center justify-between md:mb-6">
-              <h1 className="text-base font-semibold text-neutral-800 sm:text-lg">
-                {t("app.title")}
+            <header className="mb-3 flex shrink-0 items-center justify-between gap-3 md:mb-6">
+              <h1 className="font-display text-lg leading-tight tracking-wide text-white sm:text-xl">
+                <span className="bg-neon-gradient bg-clip-text text-transparent">
+                  {APP_TITLE[locale]}
+                </span>
               </h1>
               <LanguageToggle locale={locale} onChange={onLocaleChange} />
             </header>
@@ -94,15 +95,7 @@ export default function PhotoExperience({
             </div>
 
             <div key={step} className="flex min-h-0 flex-1 flex-col overflow-y-auto animate-fadeIn">
-              {step === "consent" && <ConsentScreen onAgree={() => setStep("name")} />}
-
-              {step === "name" && (
-                <NameScreen
-                  name={name}
-                  onNameChange={setName}
-                  onContinue={() => setStep("capture")}
-                />
-              )}
+              {step === "consent" && <ConsentScreen onAgree={() => setStep("capture")} />}
 
               {step === "capture" && (
                 <CaptureScreen
@@ -117,42 +110,31 @@ export default function PhotoExperience({
                 <PreviewScreen
                   photoDataUrl={photoDataUrl}
                   onRetake={() => setStep("capture")}
-                  onContinue={() => setStep("career")}
-                />
-              )}
-
-              {step === "career" && (
-                <CareerScreen
-                  onSelect={(id) => {
-                    setCareerId(id);
-                    setStep("generating");
-                  }}
-                  onBack={() => setStep("preview")}
+                  onContinue={() => setStep("generating")}
                 />
               )}
 
               {step === "generating" && <GeneratingScreen />}
 
-              {step === "result" && resultImageUrl && careerId && (
+              {step === "result" && resultImageUrl && (
                 <ResultScreen
                   imageUrl={resultImageUrl}
-                  careerId={careerId}
-                  name={name}
-                  onTryAnother={() => {
+                  sceneId={sceneId}
+                  onTryAgain={() => {
                     setResultImageUrl(null);
-                    setStep("career");
+                    setStep("generating");
                   }}
                   onNewSelfie={() => {
                     setPhotoDataUrl(null);
-                    setCareerId(null);
                     setResultImageUrl(null);
+                    setSceneId(null);
                     setStep("capture");
                   }}
                 />
               )}
 
               {step === "error" && (
-                <ErrorScreen onRetry={() => setStep(careerId ? "generating" : "capture")} />
+                <ErrorScreen onRetry={() => setStep(photoDataUrl ? "generating" : "capture")} />
               )}
             </div>
           </div>

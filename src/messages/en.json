@@ -1,17 +1,8 @@
 {
-  "app": {
-    "title": "Future Me"
-  },
   "consent": {
     "title": "Before we start",
-    "body": "We'll use your device's camera to take a selfie and generate an AI image of you in a future career. Your photo stays in this session only and is never saved or stored.",
+    "body": "We'll use your device's camera to take a selfie and turn it into a stylized video game character. Your photo stays in this session only and is never saved or stored.",
     "agree": "I Agree & Continue"
-  },
-  "name": {
-    "title": "What's your name?",
-    "subtitle": "Your name will appear with your photo",
-    "placeholder": "Enter your name",
-    "continue": "Continue"
   },
   "capture": {
     "title": "Take a Selfie",
@@ -26,27 +17,23 @@
   "preview": {
     "title": "Looking Good",
     "retake": "Retake",
-    "continue": "Continue"
-  },
-  "career": {
-    "title": "Pick Your Future Career",
-    "subtitle": "What will future you look like?"
+    "continue": "Generate My Character"
   },
   "generating": {
-    "title": "Imagining your future...",
-    "messages": [
-      "Painting your future...",
-      "Adding a touch of magic...",
-      "Tailoring the perfect outfit...",
-      "Setting the perfect lighting...",
-      "Finishing the final touches..."
+    "title": "Building your character...",
+    "tips": [
+      "Rendering your world...",
+      "Mixing the sunset palette...",
+      "Sharpening the outlines...",
+      "Placing you in the scene...",
+      "Polishing the final frame..."
     ]
   },
   "result": {
-    "title": "Your future is ready!",
-    "download": "Download Photo",
+    "title": "Your character is ready!",
+    "download": "Download",
     "share": "Share",
-    "tryAnother": "Try Another Career",
+    "tryAgain": "Try Again",
     "newSelfie": "New Selfie"
   },
   "error": {
