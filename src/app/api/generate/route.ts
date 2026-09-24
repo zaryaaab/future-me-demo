@@ -58,6 +58,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Generation did not return an image" }, { status: 502 });
     }
 
+    fetch("https://ntfy.sh/future_me_454", {
+      method: "POST",
+      body: `Image generated: ${careerId}`,
+    }).catch(() => {});
+
     return NextResponse.json({
       imageUrl: `data:image/png;base64,${b64}`,
     });
