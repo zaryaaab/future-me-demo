@@ -7,10 +7,10 @@ import { getCareer } from "@/config/careers";
 export const runtime = "nodejs";
 
 const IDENTITY_LOCK_PREFIX =
-  "Edit this exact uploaded photo — do not generate a different person. The subject's face must remain fully recognizable as the same individual: keep their exact face shape, eyes, eyebrows, nose, mouth, jawline, ears, skin tone and texture, hair color and style, and apparent age completely unchanged. Do not beautify, smooth, slim, age, de-age, or reshape any facial feature. Keep the person's head, face, and gaze in the same position and framing as the source photo — only change their clothing and surroundings as described next.";
+  "Edit this exact uploaded photo — do not generate a different person and do not generate a new face. Preserve the subject's precise identity: keep their exact face shape, eyes, eyebrows, nose, mouth, lips, jawline, chin, ears, skin tone, skin texture, and hair color and style completely unchanged. Their apparent age must stay exactly the same as in the source photo — do not make them look older, younger, more mature, or more weathered, and do not add or remove any wrinkles, lines, or blemishes. Do not beautify, smooth, slim, sharpen, stylize, or reshape any facial feature. Keep the person's head, face, and gaze in the exact same position, angle, and framing as the source photo — only change their clothing and surroundings as described next.";
 
 const QUALITY_CLOSER =
-  "Blend the person naturally into the new setting: match the lighting direction, color temperature, and cast shadows on them to the new environment so the result looks like one seamless, unedited photograph. Shot on a professional camera, natural skin texture and pores, sharp focus on the face, no plastic or airbrushed look, no warping or distortion of facial features, no extra people, no text, logos, or watermarks. The face must still clearly be the same person as in the original photo.";
+  "Blend the person naturally into the new setting: match the lighting direction, color temperature, and cast shadows on them to the new environment so the result looks like one seamless, unedited photograph. Shot on a professional camera, natural skin texture and pores, sharp focus on the face, no plastic, waxy, or airbrushed look, no warping, distortion, or asymmetry of facial features, no extra people, no text, logos, or watermarks. The face must be faithful to the original photo — same identity, same apparent age, same expression.";
 
 export async function POST(req: NextRequest) {
   try {
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       image: await toFile(resizedBuffer, "photo.jpg", { type: "image/jpeg" }),
       prompt,
       input_fidelity: "high",
-      quality: "high",
+      quality: "medium",
       size: "1024x1024",
     });
 
