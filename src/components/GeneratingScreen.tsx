@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
-export default function GeneratingScreen() {
+export default function GeneratingScreen({ name }: { name: string }) {
   const t = useTranslations("generating");
   const messages = t.raw("messages") as string[];
   const [index, setIndex] = useState(0);
@@ -24,7 +24,9 @@ export default function GeneratingScreen() {
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-neutral-800">{t("title")}</h2>
+        <h2 className="text-lg font-semibold text-neutral-800">
+          {name.trim() ? t("title", { name: name.trim() }) : t("titleFallback")}
+        </h2>
         <p key={index} className="mt-3 min-h-[1.5rem] text-sm text-neutral-500 animate-fadeIn">
           {messages[index]}
         </p>

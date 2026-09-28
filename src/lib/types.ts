@@ -5,7 +5,7 @@ export type Step =
   | "name"
   | "capture"
   | "preview"
-  | "career"
+  | "adventure"
   | "generating"
   | "result"
   | "error";

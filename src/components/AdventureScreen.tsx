@@ -1,17 +1,17 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { CAREERS, type CareerId } from "@/config/careers";
+import { ADVENTURES, type AdventureId } from "@/config/adventures";
 import type { Locale } from "@/lib/types";
 
-export default function CareerScreen({
+export default function AdventureScreen({
   onSelect,
   onBack,
 }: {
-  onSelect: (careerId: CareerId) => void;
+  onSelect: (adventureId: AdventureId) => void;
   onBack: () => void;
 }) {
-  const t = useTranslations("career");
+  const t = useTranslations("adventure");
   const common = useTranslations("common");
   const locale = useLocale() as Locale;
 
@@ -23,18 +23,18 @@ export default function CareerScreen({
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        {Object.values(CAREERS).map((career) => (
+        {Object.values(ADVENTURES).map((adventure) => (
           <button
-            key={career.id}
+            key={adventure.id}
             type="button"
-            onClick={() => onSelect(career.id)}
+            onClick={() => onSelect(adventure.id)}
             className="group flex flex-col items-center gap-3 rounded-3xl border border-black/5 bg-white p-6 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-xl active:scale-[0.98]"
           >
             <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-accent-50 text-3xl transition group-hover:scale-105 sm:h-20 sm:w-20 sm:text-4xl">
-              {career.icon}
+              {adventure.icon}
             </span>
             <span className="text-base font-bold text-neutral-800 sm:text-lg">
-              {career.label[locale]}
+              {adventure.label[locale]}
             </span>
           </button>
         ))}

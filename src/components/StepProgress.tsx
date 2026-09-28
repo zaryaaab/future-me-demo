@@ -2,7 +2,7 @@
 
 import type { Step } from "@/lib/types";
 
-const FLOW_STEPS: Step[] = ["name", "capture", "preview", "career", "generating"];
+const FLOW_STEPS: Step[] = ["name", "capture", "preview", "adventure", "generating"];
 
 export default function StepProgress({ step }: { step: Step }) {
   const normalized = step === "result" ? "generating" : step;

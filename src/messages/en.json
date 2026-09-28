@@ -1,53 +1,52 @@
 {
   "app": {
-    "title": "Future Me"
+    "title": "Little Dreamer"
   },
   "consent": {
     "title": "Before we start",
-    "body": "We'll use your device's camera to take a selfie and generate an AI image of you in a future career. Your photo stays in this session only and is never saved or stored.",
+    "body": "As their parent or guardian, you're uploading your child's photo. It's sent to our AI provider to generate their adventure image. Little Dreamer itself does not save or store the uploaded photo — but as with any online service, we can't make absolute guarantees about data in transit.",
     "agree": "I Agree & Continue"
   },
   "name": {
-    "title": "What's your name?",
-    "subtitle": "Your name will appear with your photo",
-    "placeholder": "Enter your name",
+    "title": "What's your little explorer's name?",
+    "subtitle": "Their name will appear with their photo",
+    "placeholder": "Enter their name",
     "continue": "Continue"
   },
   "capture": {
-    "title": "Take a Selfie",
-    "subtitle": "Take a clear photo of your face, or choose one from your gallery",
+    "title": "Take a Photo",
+    "subtitle": "Take a clear photo of their face, or choose one from your gallery",
+    "tips": ["One child only", "Face clearly visible", "Good lighting", "Look toward camera"],
     "takePhoto": "Take Photo",
     "upload": "Choose from Gallery",
     "switchCamera": "Switch Camera",
     "capture": "Capture",
     "cancel": "Cancel",
-    "permissionError": "We couldn't access the camera. You can choose a photo from your gallery instead."
+    "permissionError": "We couldn't access the camera. You can choose a photo from your gallery instead.",
+    "unsupportedFormat": "That photo format isn't supported here. Please choose a JPG or PNG photo instead."
   },
   "preview": {
     "title": "Looking Good",
     "retake": "Retake",
     "continue": "Continue"
   },
-  "career": {
-    "title": "Pick Your Future Career",
-    "subtitle": "What will future you look like?"
+  "adventure": {
+    "title": "Choose Their Adventure",
+    "subtitle": "Watch their imagination come to life."
   },
   "generating": {
-    "title": "Imagining your future...",
-    "messages": [
-      "Painting your future...",
-      "Adding a touch of magic...",
-      "Tailoring the perfect outfit...",
-      "Setting the perfect lighting...",
-      "Finishing the final touches..."
-    ]
+    "title": "Creating {name}'s adventure…",
+    "titleFallback": "Creating their adventure…",
+    "messages": ["Preparing their world…", "Adding a touch of magic…", "Almost ready…"]
   },
   "result": {
-    "title": "Your future is ready!",
+    "title": "{name}'s {adventure}",
+    "titleFallback": "Their {adventure}",
+    "tagline": "Dream big ✨",
     "download": "Download Photo",
     "share": "Share",
-    "tryAnother": "Try Another Career",
-    "newSelfie": "New Selfie"
+    "tryAnother": "Try Another Adventure",
+    "newSelfie": "New Photo"
   },
   "error": {
     "title": "Something went wrong",

@@ -91,17 +91,33 @@ export default function CaptureScreen({
     setMode("idle");
   };
 
+  const isHeic = (file: File) => {
+    // HEIC/HEIF files often report an empty or generic file.type in browsers
+    // that can't decode them (notably desktop Chrome), so also check the
+    // extension.
+    const type = file.type.toLowerCase();
+    return type === "image/heic" || type === "image/heif" || /\.hei[cf]$/i.test(file.name);
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    e.target.value = "";
     if (!file) return;
+
+    if (isHeic(file)) {
+      setError(t("unsupportedFormat"));
+      return;
+    }
+
+    setError(null);
     const reader = new FileReader();
     reader.onload = () => {
       if (typeof reader.result === "string") {
         onCaptured(reader.result);
       }
     };
+    reader.onerror = () => setError(t("unsupportedFormat"));
     reader.readAsDataURL(file);
-    e.target.value = "";
   };
 
   return (
@@ -110,6 +126,20 @@ export default function CaptureScreen({
         <h2 className="text-xl font-semibold text-neutral-800">{t("title")}</h2>
         <p className="mt-2 text-sm text-neutral-500">{t("subtitle")}</p>
       </div>
+
+      {mode === "idle" && (
+        <ul className="mx-auto grid w-full max-w-sm grid-cols-2 gap-2 text-xs text-neutral-500">
+          {(t.raw("tips") as string[]).map((tip) => (
+            <li
+              key={tip}
+              className="flex items-center gap-1.5 rounded-xl bg-neutral-50 px-3 py-2"
+            >
+              <span aria-hidden>✓</span>
+              {tip}
+            </li>
+          ))}
+        </ul>
+      )}
 
       {mode === "camera" ? (
         <div className="mx-auto flex w-full max-w-sm flex-col gap-4">

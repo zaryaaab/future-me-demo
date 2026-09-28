@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import type { Locale } from "@/lib/types";
-import { getCareer, type CareerId } from "@/config/careers";
+import { getAdventure, type AdventureId } from "@/config/adventures";
 import { cairo, jakarta } from "@/lib/fonts";
 
 function loadImage(src: string): Promise<HTMLImageElement> {
@@ -88,13 +88,13 @@ async function composeCaptionedImage({
 
 export default function ResultScreen({
   imageUrl,
-  careerId,
+  adventureId,
   name,
   onTryAnother,
   onNewSelfie,
 }: {
   imageUrl: string;
-  careerId: CareerId;
+  adventureId: AdventureId;
   name: string;
   onTryAnother: () => void;
   onNewSelfie: () => void;
@@ -102,13 +102,13 @@ export default function ResultScreen({
   const t = useTranslations("result");
   const appT = useTranslations("app");
   const locale = useLocale() as Locale;
-  const career = getCareer(careerId);
+  const adventure = getAdventure(adventureId);
   const [captionedUrl, setCaptionedUrl] = useState<string | null>(null);
   const [busy, setBusy] = useState<"download" | "share" | null>(null);
   const blobRef = useRef<Blob | null>(null);
 
   useEffect(() => {
-    if (!career) return;
+    if (!adventure) return;
     let cancelled = false;
     let objectUrl: string | null = null;
     setCaptionedUrl(null);
@@ -117,7 +117,7 @@ export default function ResultScreen({
     composeCaptionedImage({
       imageUrl,
       name: name.trim(),
-      caption: career.caption[locale],
+      caption: adventure.caption[locale],
       appName: appT("title"),
       locale,
     }).then((blob) => {
@@ -131,9 +131,9 @@ export default function ResultScreen({
       cancelled = true;
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [imageUrl, career, locale, name, appT]);
+  }, [imageUrl, adventure, locale, name, appT]);
 
-  if (!career) return null;
+  if (!adventure) return null;
 
   const handleDownload = () => {
     if (!blobRef.current) return;
@@ -141,7 +141,7 @@ export default function ResultScreen({
     const url = URL.createObjectURL(blobRef.current);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "future-me.jpg";
+    a.download = "little-dreamer.jpg";
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -153,7 +153,7 @@ export default function ResultScreen({
     if (!blobRef.current) return;
     setBusy("share");
     try {
-      const file = new File([blobRef.current], "future-me.jpg", { type: "image/jpeg" });
+      const file = new File([blobRef.current], "little-dreamer.jpg", { type: "image/jpeg" });
       if (navigator.canShare?.({ files: [file] })) {
         await navigator.share({ files: [file] });
       } else {
@@ -169,10 +169,12 @@ export default function ResultScreen({
   return (
     <div className="flex flex-1 flex-col justify-center gap-6 py-8">
       <div className="text-center">
-        <h2 className="text-xl font-semibold text-neutral-800">{t("title")}</h2>
-        {name.trim() && (
-          <p className="mt-1 text-sm font-semibold text-accent-600">{name.trim()}</p>
-        )}
+        <h2 className="text-xl font-semibold text-neutral-800">
+          {name.trim()
+            ? t("title", { name: name.trim(), adventure: adventure.label[locale] })
+            : t("titleFallback", { adventure: adventure.label[locale] })}
+        </h2>
+        <p className="mt-1 text-sm font-semibold text-accent-600">{t("tagline")}</p>
       </div>
 
       <div className="mx-auto aspect-[3/4] w-full max-w-sm overflow-hidden rounded-3xl bg-neutral-900 shadow-lg">

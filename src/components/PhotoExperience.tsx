@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { Locale, Step } from "@/lib/types";
-import type { CareerId } from "@/config/careers";
+import type { AdventureId } from "@/config/adventures";
 import { dataUrlToBlob } from "@/lib/image";
 import LanguageToggle from "@/components/LanguageToggle";
 import StepProgress from "@/components/StepProgress";
@@ -11,7 +11,7 @@ import ConsentScreen from "@/components/ConsentScreen";
 import NameScreen from "@/components/NameScreen";
 import CaptureScreen from "@/components/CaptureScreen";
 import PreviewScreen from "@/components/PreviewScreen";
-import CareerScreen from "@/components/CareerScreen";
+import AdventureScreen from "@/components/AdventureScreen";
 import GeneratingScreen from "@/components/GeneratingScreen";
 import ResultScreen from "@/components/ResultScreen";
 import ErrorScreen from "@/components/ErrorScreen";
@@ -27,7 +27,7 @@ export default function PhotoExperience({
   const [step, setStep] = useState<Step>("consent");
   const [name, setName] = useState("");
   const [photoDataUrl, setPhotoDataUrl] = useState<string | null>(null);
-  const [careerId, setCareerId] = useState<CareerId | null>(null);
+  const [adventureId, setAdventureId] = useState<AdventureId | null>(null);
   const [resultImageUrl, setResultImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function PhotoExperience({
   }, [locale]);
 
   useEffect(() => {
-    if (step !== "generating" || !photoDataUrl || !careerId) return;
+    if (step !== "generating" || !photoDataUrl || !adventureId) return;
 
     const controller = new AbortController();
 
@@ -44,7 +44,7 @@ export default function PhotoExperience({
       try {
         const formData = new FormData();
         formData.append("image", dataUrlToBlob(photoDataUrl), "photo.jpg");
-        formData.append("careerId", careerId);
+        formData.append("adventureId", adventureId);
 
         const res = await fetch("/api/generate", {
           method: "POST",
@@ -66,7 +66,7 @@ export default function PhotoExperience({
     })();
 
     return () => controller.abort();
-  }, [step, photoDataUrl, careerId]);
+  }, [step, photoDataUrl, adventureId]);
 
   return (
     <main className="relative h-dvh w-full overflow-hidden bg-gradient-to-b from-accent-50 via-white to-white transition-colors duration-500 md:bg-neutral-100">
@@ -117,34 +117,34 @@ export default function PhotoExperience({
                 <PreviewScreen
                   photoDataUrl={photoDataUrl}
                   onRetake={() => setStep("capture")}
-                  onContinue={() => setStep("career")}
+                  onContinue={() => setStep("adventure")}
                 />
               )}
 
-              {step === "career" && (
-                <CareerScreen
+              {step === "adventure" && (
+                <AdventureScreen
                   onSelect={(id) => {
-                    setCareerId(id);
+                    setAdventureId(id);
                     setStep("generating");
                   }}
                   onBack={() => setStep("preview")}
                 />
               )}
 
-              {step === "generating" && <GeneratingScreen />}
+              {step === "generating" && <GeneratingScreen name={name} />}
 
-              {step === "result" && resultImageUrl && careerId && (
+              {step === "result" && resultImageUrl && adventureId && (
                 <ResultScreen
                   imageUrl={resultImageUrl}
-                  careerId={careerId}
+                  adventureId={adventureId}
                   name={name}
                   onTryAnother={() => {
                     setResultImageUrl(null);
-                    setStep("career");
+                    setStep("adventure");
                   }}
                   onNewSelfie={() => {
                     setPhotoDataUrl(null);
-                    setCareerId(null);
+                    setAdventureId(null);
                     setResultImageUrl(null);
                     setStep("capture");
                   }}
@@ -152,7 +152,7 @@ export default function PhotoExperience({
               )}
 
               {step === "error" && (
-                <ErrorScreen onRetry={() => setStep(careerId ? "generating" : "capture")} />
+                <ErrorScreen onRetry={() => setStep(adventureId ? "generating" : "capture")} />
               )}
             </div>
           </div>
